@@ -7,6 +7,9 @@ target_include_directories(engine PRIVATE include)
 
 # Additional CMake scripts, Add External Libraries 
 include(cmake/FetchGLFW.cmake)
-target_link_libraries(engine PRIVATE glfw)
 
 add_subdirectory(src)
+
+# TODO: Add A Folder for each of the External Libs.
+
+target_link_libraries(engine PRIVATE glfw) # Might need to be Pulic if the editor includes headers from engine.
