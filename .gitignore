@@ -6,7 +6,7 @@ out/
 .idea/
 
 # Dont push anything that can be built. This keeps the Repo small.
-ext/*
+external/*
 
 # Dont include any embeded repos.
 /editor/libs/*
