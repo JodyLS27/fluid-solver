@@ -5,7 +5,7 @@
 
 namespace engine
 {
-	class Window()
+	class Window
 	{
 	public:
 		/**
@@ -13,5 +13,5 @@ namespace engine
 		**/
 		void init();
 
-	}
+	};
 }
