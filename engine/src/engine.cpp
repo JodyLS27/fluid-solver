@@ -1,8 +1,11 @@
-#include <iostream>
+#include "engine.hpp"
 
-int main()
+void engine::Engine::init()
 {
-	std::cout << "Build Succeeded, Print happened.";
 
-	return 0;
+}
+
+void engine::Engine::start()
+{
+
 }
