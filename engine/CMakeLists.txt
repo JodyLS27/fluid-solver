@@ -1,7 +1,7 @@
 # Engine CMake Lists
 
 # Used mark this as a static library
-add_library(engine STATIC src/engine.cpp)
+add_library(engine STATIC src/engine.cpp "src/window/window.cpp")
 
 target_include_directories(engine PRIVATE include)
 
