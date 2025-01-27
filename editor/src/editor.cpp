@@ -1,9 +1,9 @@
 #include <iostream>
-
+#include <engine.hpp>
 
 int main()
 {
-	std::cout << "Running...";
+	engine::Engine engine;
 
-	return 0;
+	engine.init();
 }

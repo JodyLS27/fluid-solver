@@ -1,4 +1,6 @@
-cmake_minimum_required(VERSION 3.18)
+# Project level CMake
+
+cmake_minimum_required(VERSION 3.20)
 Project(fluid_solver VERSION 0.0.1)
 
 # Set C++ Standard
