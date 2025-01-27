@@ -5,7 +5,7 @@
 
 // Forward Declare
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
-
+void process_input(GLFWwindow* window);
 
 void engine::Window::init()
 {
@@ -46,6 +46,9 @@ void engine::Window::init()
 	// Render Loop
 	while (!glfwWindowShouldClose(window))
 	{
+		// Input
+		process_input(window);
+
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 	}
@@ -63,4 +66,12 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
 	glViewport(0, 0, width, height);
 	std::cout << "\n\n --- Window resized ---\n\n";
+}
+
+void process_input(GLFWwindow* window)
+{
+	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+	{
+		glfwSetWindowShouldClose(window, true);
+	}
 }
