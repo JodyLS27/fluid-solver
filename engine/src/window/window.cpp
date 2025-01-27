@@ -4,6 +4,16 @@
 #include <GLFW/glfw3.h>
 
 
+// GLFW Events
+/**
+* Called when resetting a windows size
+**/
+void framebuffer_size_callback(GLFWwindow* window, int width, int height)
+{
+	glViewport(0, 0, width, height);
+	std::cout << "\n\n --- Window resized ---\n\n";
+}
+
 void engine::Window::init()
 {
 	// Initialize the window attributes
@@ -42,10 +52,17 @@ void engine::Window::init()
 	// Viewport
 	glViewport(0, 0, m_width, m_height);
 
+	// Event callbacks
+	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+
 	// Render Loop
 	while (!glfwWindowShouldClose(window))
 	{
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 	}
+
+	// End
+	glfwTerminate();
+	// return 0;
 }
