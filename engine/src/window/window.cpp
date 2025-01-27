@@ -3,16 +3,9 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
+// Forward Declare
+void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 
-// GLFW Events
-/**
-* Called when resetting a windows size
-**/
-void framebuffer_size_callback(GLFWwindow* window, int width, int height)
-{
-	glViewport(0, 0, width, height);
-	std::cout << "\n\n --- Window resized ---\n\n";
-}
 
 void engine::Window::init()
 {
@@ -23,12 +16,7 @@ void engine::Window::init()
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 
-	// TODO: Place in the header at a later stage
-	int m_width = 800;
-	int m_height = 600;
-
-
-	GLFWwindow* window = glfwCreateWindow(m_width, m_height, "Fluid Solver", NULL, NULL);
+	GLFWwindow* window = glfwCreateWindow(m_screen_width, m_screen_height, "Fluid Solver", NULL, NULL);
 
 	// Crash if the window is null
 	if (window == NULL)
@@ -50,7 +38,7 @@ void engine::Window::init()
 	}
 
 	// Viewport
-	glViewport(0, 0, m_width, m_height);
+	glViewport(0, 0, m_screen_width, m_screen_height);
 
 	// Event callbacks
 	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
@@ -65,4 +53,14 @@ void engine::Window::init()
 	// End
 	glfwTerminate();
 	// return 0;
+}
+
+// GLFW Events
+/**
+* Called when resetting a windows size
+**/
+void framebuffer_size_callback(GLFWwindow* window, int width, int height)
+{
+	glViewport(0, 0, width, height);
+	std::cout << "\n\n --- Window resized ---\n\n";
 }
