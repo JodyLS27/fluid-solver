@@ -2,6 +2,7 @@
 
 void engine::Engine::init()
 {
+	window.init();
 
 }
 

@@ -1,5 +1,7 @@
 #pragma once
 
+#include "window/window.hpp"
+
 namespace engine
 {
 	class Engine
@@ -14,5 +16,8 @@ namespace engine
 		* Start the engine and its main loop
 		**/
 		void start();
+
+	private:
+		Window window;
 	};
 }
