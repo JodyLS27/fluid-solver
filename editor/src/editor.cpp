@@ -5,5 +5,5 @@ int main()
 {
 	engine::Engine engine;
 
-	engine.init();
+	engine.start();
 }
