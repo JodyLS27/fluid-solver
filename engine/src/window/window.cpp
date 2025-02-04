@@ -48,10 +48,12 @@ void engine::Window::init()
 
 }
 
+GLFWwindow* engine::Window::getGLFWwindow() const
+{
+	return m_window;
+}
+
 // GLFW Events
-/**
-* Called when resetting a windows size
-**/
 void engine::Window::framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
 	glViewport(0, 0, width, height);
