@@ -32,7 +32,7 @@ namespace engine
 		/**
 		* Used for Input processing like Keyboard, Mouse or controller
 		**/
-		static void process_input(GLFWwindow* window);
+		void process_input(GLFWwindow* window);
 
 	private:
 		// Settings
