@@ -15,9 +15,11 @@ namespace engine
 		/**
 		* Start the engine and its main loop
 		**/
-		void start();
+		int start();
 
 	private:
-		Window window;
+		engine::Window m_engine_window;
+
+		GLFWwindow* m_window;
 	};
 }
