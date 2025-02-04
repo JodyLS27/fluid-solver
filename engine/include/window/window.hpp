@@ -25,13 +25,14 @@ namespace engine
 
 		/**
 		* called when the window is resized and sets the glViewport to the current window size
+		* @NOTE: Made static as GLFW requires callback functions to have a C-style function signature (
 		**/
-		void framebuffer_size_callback(GLFWwindow* window, int width, int height);
+		static void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 
 		/**
 		* Used for Input processing like Keyboard, Mouse or controller
 		**/
-		void process_input(GLFWwindow* window);
+		static void process_input(GLFWwindow* window);
 
 	private:
 		// Settings
