@@ -1,8 +1,9 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
-#include "engine.hpp"
+#include <array>
 
+#include "engine.hpp"
 
 void engine::Engine::init()
 {
@@ -21,8 +22,23 @@ int engine::Engine::start()
 
 	// Build and Comile our Shader Program
 	// ------------------------------------------------
+	// Vertex Shader
 
 
+	// Vertex Data
+	float vertices[] = 
+	{
+		-0.5f, -0.5f, 0.0f,
+		0.5f, -0.5f, 0.0f,
+		0.0f, 0.5f, 0.0f
+	};
+
+	// Setup Vertex Buffer Object
+	unsigned int VBO;
+	glGenBuffers(1, &VBO);
+
+	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
 	// ------------------------------------------------
 
