@@ -5,6 +5,15 @@
 
 #include "engine.hpp"
 
+
+// Temp Data for testing
+const char* vertex_shader_source = "# Version 330 core\n"
+"layout(location = 0) in vec3 aPos; \n"
+"oid main()\n"
+"{\n"
+"	gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0f);\n"
+"}\0";
+
 void engine::Engine::init()
 {
 }
@@ -23,10 +32,12 @@ int engine::Engine::start()
 	// Build and Comile our Shader Program
 	// ------------------------------------------------
 	// Vertex Shader
+	unsigned int vertex_shader{};
+	vertex_shader = glCreateShader(GL_VERTEX_SHADER);
 
 
 	// Vertex Data
-	float vertices[] = 
+	float vertices[] =
 	{
 		-0.5f, -0.5f, 0.0f,
 		0.5f, -0.5f, 0.0f,
@@ -34,7 +45,7 @@ int engine::Engine::start()
 	};
 
 	// Setup Vertex Buffer Object
-	unsigned int VBO;
+	unsigned int VBO{};
 	glGenBuffers(1, &VBO);
 
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
