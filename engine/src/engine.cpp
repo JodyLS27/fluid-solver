@@ -19,6 +19,14 @@ int engine::Engine::start()
 		return -1;
 	}
 
+	// Build and Comile our Shader Program
+	// ------------------------------------------------
+
+
+
+	// ------------------------------------------------
+
+	// Main loop
 	while (!glfwWindowShouldClose(m_window))
 	{
 		// Input
