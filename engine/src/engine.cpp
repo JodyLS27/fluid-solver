@@ -76,6 +76,26 @@ int engine::Engine::start()
 		std::cout << "ERROR::SHADER::FRAGMENT::COMPILED FAILED\n" << info_log << "\n\n";
 	}
 
+	// Shader Program
+	unsigned int shader_program{};
+	shader_program = glCreateProgram();
+
+	glAttachShader(shader_program, vertex_shader);
+	glAttachShader(shader_program, fragment_shader);
+	glLinkProgram(shader_program);
+
+	glGetProgramiv(shader_program, GL_LINK_STATUS, &success);
+
+	if (!success)
+	{
+		glGetProgramInfoLog(shader_program, 512, nullptr, info_log);
+		std::cout << "ERROR::SHADER::PROGRAM::COMPILE FAILED\n" << info_log << "\n\n";
+	}
+
+	// Cleanup Unneeded Shaders
+	glDeleteShader(vertex_shader);
+	glDeleteShader(fragment_shader);
+
 
 	// Vertex Data
 	float vertices[] =
@@ -104,6 +124,11 @@ int engine::Engine::start()
 		// Rendering
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
+
+
+		glUseProgram(shader_program);
+
+
 
 		glfwSwapBuffers(m_window);
 		glfwPollEvents();
