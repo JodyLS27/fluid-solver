@@ -38,27 +38,44 @@ int engine::Engine::start()
 
 	// Build and Comile our Shader Program
 	// ------------------------------------------------
-	// Vertex Shader
-	unsigned int vertex_shader{};
 
 	// Checking if shader comiliation was successful
-	int shader_vertex_success{};
+	int success{};
 	char info_log[512];
 
 
+	// Vertex Shader
+	unsigned int vertex_shader{};
 	vertex_shader = glCreateShader(GL_VERTEX_SHADER);
 
 	glShaderSource(vertex_shader, 1, &vertex_shader_source, nullptr);
 	glCompileShader(vertex_shader);
 
-	// Check Compiliation success
-	glGetShaderiv(vertex_shader, GL_COMPILE_STATUS, &shader_vertex_success);
+	//Vertex Compiliation success
+	glGetShaderiv(vertex_shader, GL_COMPILE_STATUS, &success);
 
-	if (!shader_vertex_success)
+	if (!success)
 	{
 		glGetShaderInfoLog(vertex_shader, 512, nullptr, info_log);
-		std::cout << "ERROR::SHADER::VERTEX::COMPILE FAILED\n" << info_log << "\n";
+		std::cout << "ERROR::SHADER::VERTEX::COMPILE FAILED\n" << info_log << "\n\n";
 	}
+
+	// Fragment Shader
+	unsigned int fragment_shader{};
+	fragment_shader = glCreateShader(GL_FRAGMENT_SHADER);
+
+	glShaderSource(fragment_shader, 1, &fragment_shader_source, nullptr);
+	glCompileShader(fragment_shader);
+
+	// Fragment Compilation success
+	glGetShaderiv(fragment_shader, GL_COMPILE_STATUS, &success);
+
+	if (!success)
+	{
+		glGetShaderInfoLog(fragment_shader, 512, nullptr, info_log);
+		std::cout << "ERROR::SHADER::FRAGMENT::COMPILED FAILED\n" << info_log << "\n\n";
+	}
+
 
 	// Vertex Data
 	float vertices[] =
