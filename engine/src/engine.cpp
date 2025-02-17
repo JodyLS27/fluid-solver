@@ -44,7 +44,7 @@ int engine::Engine::start()
 	char info_log[512];
 
 
-	// Vertex Shader
+	// --- Vertex Shader ---
 	unsigned int vertex_shader{};
 	vertex_shader = glCreateShader(GL_VERTEX_SHADER);
 
@@ -60,7 +60,7 @@ int engine::Engine::start()
 		std::cout << "ERROR::SHADER::VERTEX::COMPILE FAILED\n" << info_log << "\n\n";
 	}
 
-	// Fragment Shader
+	// --- Fragment Shader ---
 	unsigned int fragment_shader{};
 	fragment_shader = glCreateShader(GL_FRAGMENT_SHADER);
 
@@ -76,7 +76,7 @@ int engine::Engine::start()
 		std::cout << "ERROR::SHADER::FRAGMENT::COMPILED FAILED\n" << info_log << "\n\n";
 	}
 
-	// Shader Program
+	// --- Shader Program ---
 	unsigned int shader_program{};
 	shader_program = glCreateProgram();
 
@@ -97,7 +97,7 @@ int engine::Engine::start()
 	glDeleteShader(fragment_shader);
 
 
-	// Vertex Data
+	// --- Vertex Data ---
 	float vertices[] =
 	{
 		-0.5f, -0.5f, 0.0f,
@@ -106,12 +106,20 @@ int engine::Engine::start()
 	};
 
 	// Setup Vertex Buffer Object
-	unsigned int VBO{};
+	unsigned int VBO, VAO{};
+	glGenVertexArrays(1, &VAO);
 	glGenBuffers(1, &VBO);
+
+	// Bind Vertex Array first: Must do this first, then Bind and set vertex buffers, and then configure vertex attributes.
+	glBindVertexArray(VAO);
 
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
+
+	// Vertex Attributes
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+	glEnableVertexAttribArray(0);
 
 	// ------------------------------------------------
 
@@ -126,8 +134,10 @@ int engine::Engine::start()
 		glClear(GL_COLOR_BUFFER_BIT);
 
 
+		// Draw Triangle
 		glUseProgram(shader_program);
-
+		glBindVertexArray(VAO);
+		glDrawArrays(GL_TRIANGLES, 0, 3);
 
 
 		glfwSwapBuffers(m_window);
