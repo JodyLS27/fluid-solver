@@ -126,20 +126,20 @@ int engine::Engine::start()
 	// Main loop
 	while (!glfwWindowShouldClose(m_window))
 	{
-		// Input
+		// Input handling
 		m_engine_window.process_input(m_window);
 
-		// Rendering
+		// Rendering: Clear the Back Buffer
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 
 
-		// Draw Triangle
+		// Draw Triangle: On the Back Buffer
 		glUseProgram(shader_program);
 		glBindVertexArray(VAO);
 		glDrawArrays(GL_TRIANGLES, 0, 3);
 
-
+		// Swap the Front and Back Buffers
 		glfwSwapBuffers(m_window);
 		glfwPollEvents();
 	}
