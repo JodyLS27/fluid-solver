@@ -113,15 +113,19 @@ int engine::Engine::start()
 	};
 
 	// Setup Vertex Buffer Object
-	unsigned int VBO, VAO{};
+	unsigned int VBO{}, VAO{}, EBO{};
 	glGenVertexArrays(1, &VAO);
 	glGenBuffers(1, &VBO);
+	glGenBuffers(1, &EBO);
 
 	// Bind Vertex Array first: Must do this first, then Bind and set vertex buffers, and then configure vertex attributes.
 	glBindVertexArray(VAO);
 
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
 
 	// Vertex Attributes
@@ -144,7 +148,13 @@ int engine::Engine::start()
 		// Draw Triangle: On the Back Buffer
 		glUseProgram(shader_program);
 		glBindVertexArray(VAO);
-		glDrawArrays(GL_TRIANGLES, 0, 3);
+
+		// Using the EBO to draw a rectangle
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+
+		// Moving to Element Buffer
+		// glDrawArrays(GL_TRIANGLES, 0, 3);
 
 		// Swap the Front and Back Buffers
 		glfwSwapBuffers(m_window);
