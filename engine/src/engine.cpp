@@ -132,6 +132,9 @@ int engine::Engine::start()
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(0);
 
+	// Uncomment to render Wireframe
+	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+
 	// ------------------------------------------------
 
 	// Main loop
@@ -153,7 +156,7 @@ int engine::Engine::start()
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
-		// Moving to Element Buffer
+		// Moving to Element Buffer, No longer needed
 		// glDrawArrays(GL_TRIANGLES, 0, 3);
 
 		// Swap the Front and Back Buffers
