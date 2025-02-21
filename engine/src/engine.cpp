@@ -100,10 +100,15 @@ int engine::Engine::start()
 	// --- Vertex Data ---
 	float vertices[] =
 	{
-		0.5f, 0.5f, 0.0f,   // top right
-		0.5f, -0.5f, 0.0f,  // bottom right
-		-0.5f, -0.5f, 0.0f, // bottom left
-		-0.5f, 0.5f, 0.0f   // top left
+		// Triangel 1
+		-0.75f, 0.25f, 0.0f,		// top
+		-0.9f, -0.25f, 0.0f,		// Left
+		-0.6f, -0.25f, 0.0f,		// Right
+
+		// Triangle Two
+		0.75f, 0.25f, 0.0f,
+		0.6f, -0.25f, 0.0f,
+		0.9f, -0.25f, 0.0f
 	};
 
 	unsigned int indices[] =
@@ -116,20 +121,21 @@ int engine::Engine::start()
 	unsigned int VBO{}, VAO{}, EBO{};
 	glGenVertexArrays(1, &VAO);
 	glGenBuffers(1, &VBO);
-	glGenBuffers(1, &EBO);
+	//glGenBuffers(1, &EBO);
 
 	// Bind Vertex Array first: Must do this first, then Bind and set vertex buffers, and then configure vertex attributes.
 	glBindVertexArray(VAO);
 
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+	//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
 
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+	//glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
 
 	// Vertex Attributes
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+	//glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(0);
 
 	// Uncomment to render Wireframe
@@ -153,11 +159,11 @@ int engine::Engine::start()
 		glBindVertexArray(VAO);
 
 		// Using the EBO to draw a rectangle
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+		//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+		//glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
 		// Moving to Element Buffer, No longer needed
-		// glDrawArrays(GL_TRIANGLES, 0, 3);
+		glDrawArrays(GL_TRIANGLES, 0, 6);
 
 		// Swap the Front and Back Buffers
 		glfwSwapBuffers(m_window);
