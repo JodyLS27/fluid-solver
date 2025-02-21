@@ -118,25 +118,43 @@ int engine::Engine::start()
 	};
 
 	// Setup Vertex Buffer Object
-	unsigned int VBO{}, VAO{}, EBO{};
-	glGenVertexArrays(1, &VAO);
-	glGenBuffers(1, &VBO);
+	unsigned int VBOA{}, VBOB{}, VAOA{}, VAOB{}, EBO{};
+
+	// Buffer::A
+	glGenVertexArrays(1, &VAOA);
+	glGenBuffers(1, &VBOA);
+
+	glBindVertexArray(VAOA);
+
+	glBindBuffer(GL_ARRAY_BUFFER, VBOA);
+
+
+	// TODO: Check if two are needed ?
+	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+	glEnableVertexAttribArray(0); // TODO: Checck if needed, I have one at the Bottome already
+
+
+
+	// Buffer::B
+	glGenVertexArrays(1, &VAOB);
+	glGenBuffers(1, &VBOB);
 	//glGenBuffers(1, &EBO);
 
 	// Bind Vertex Array first: Must do this first, then Bind and set vertex buffers, and then configure vertex attributes.
-	glBindVertexArray(VAO);
+	glBindVertexArray(VAOB);
 
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	glBindBuffer(GL_ARRAY_BUFFER, VBOB);
+	// Element stuff..
 	//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
 
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 	//glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
-
 	// Vertex Attributes
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-	//glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+	glEnableVertexAttribArray(1);
 
 	// Uncomment to render Wireframe
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
@@ -156,14 +174,16 @@ int engine::Engine::start()
 
 		// Draw Triangle: On the Back Buffer
 		glUseProgram(shader_program);
-		glBindVertexArray(VAO);
+		glBindVertexArray(VAOA);
+		glBindVertexArray(VAOB);
 
 		// Using the EBO to draw a rectangle
 		//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
 		//glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
 		// Moving to Element Buffer, No longer needed
-		glDrawArrays(GL_TRIANGLES, 0, 6);
+		glDrawArrays(GL_TRIANGLES, 0, 3);
+		glDrawArrays(GL_TRIANGLES, 3, 3); // TODO:Not sure if this is Needed ?
 
 		// Swap the Front and Back Buffers
 		glfwSwapBuffers(m_window);
