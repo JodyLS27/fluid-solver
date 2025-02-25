@@ -96,19 +96,35 @@ int engine::Engine::start()
 	glDeleteShader(vertex_shader);
 	glDeleteShader(fragment_shader);
 
-
 	// --- Vertex Data ---
 	float vertices[] =
 	{
-		// Triangel 1
+		// Triangle One
 		-0.75f, 0.25f, 0.0f,		// top
 		-0.9f, -0.25f, 0.0f,		// Left
 		-0.6f, -0.25f, 0.0f,		// Right
 
-		// Triangle Two
-		0.75f, 0.25f, 0.0f,
-		0.6f, -0.25f, 0.0f,
-		0.9f, -0.25f, 0.0f
+		// Triangle two
+		0.75f, 0.25f, 0.0f,		// top
+		0.6f, -0.25f, 0.0f,		// left
+		0.9f, -0.25f, 0.0f		// right
+	};
+
+
+	// --- Vertex Data ---
+	float first_triangle[] =
+	{
+		-0.75f, 0.25f, 0.0f,		// top
+		-0.9f, -0.25f, 0.0f,		// Left
+		-0.6f, -0.25f, 0.0f,		// Right
+	};
+
+	float second_triangle[] =
+	{
+		0.75f, 0.25f, 0.0f,		// top
+		0.6f, -0.25f, 0.0f,		// left
+		0.9f, -0.25f, 0.0f		// right
+
 	};
 
 	unsigned int indices[] =
@@ -118,50 +134,29 @@ int engine::Engine::start()
 	};
 
 	// Setup Vertex Buffer Object
-	unsigned int VBOA{}, VBOB{}, VAOA{}, VAOB{}, EBO{};
+	// (OLD) - unsigned int VBOA{}, VBOB{}, VAOA{}, VAOB{}, EBO{}; TODO: Remove
+	GLuint VBOs[2];
+	GLuint VAOs[2];
 
-	// Buffer::A
-	glGenVertexArrays(1, &VAOA);
-	glGenBuffers(1, &VBOA);
+	// Generate Buffers
+	glGenVertexArrays(2, VAOs);
+	glGenBuffers(2, VBOs);
 
-	glBindVertexArray(VAOA);
+	// Loop over the array
+	for (int i = 0; i < 2; i++)
+	{
+		glBindVertexArray(VAOs[i]);
+		glBindBuffer(GL_ARRAY_BUFFER, VBOs[i]);
 
-	glBindBuffer(GL_ARRAY_BUFFER, VBOA);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(vertices) / 2, &vertices[i * 9], GL_STATIC_DRAW);
 
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0); // Because the data is Tightly packed, We can let OpenGL figure it out.
+		glEnableVertexAttribArray(0);
+	}
 
-	// TODO: Check if two are needed ?
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-	glEnableVertexAttribArray(0); // TODO: Checck if needed, I have one at the Bottome already
-
-
-
-	// Buffer::B
-	glGenVertexArrays(1, &VAOB);
-	glGenBuffers(1, &VBOB);
-	//glGenBuffers(1, &EBO);
-
-	// Bind Vertex Array first: Must do this first, then Bind and set vertex buffers, and then configure vertex attributes.
-	glBindVertexArray(VAOB);
-
-	glBindBuffer(GL_ARRAY_BUFFER, VBOB);
-	// Element stuff..
-	//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-	//glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
-
-	// Vertex Attributes
-	glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-	glEnableVertexAttribArray(1);
-
-	// Uncomment to render Wireframe
-	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-
-	// ------------------------------------------------
 
 	// Main loop
+	// ---------
 	while (!glfwWindowShouldClose(m_window))
 	{
 		// Input handling
@@ -174,16 +169,13 @@ int engine::Engine::start()
 
 		// Draw Triangle: On the Back Buffer
 		glUseProgram(shader_program);
-		glBindVertexArray(VAOA);
-		glBindVertexArray(VAOB);
-
-		// Using the EBO to draw a rectangle
-		//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-		//glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+		for (int i = 0; i < 2; i++)
+		{
+			glBindVertexArray(VAOs[i]);
+			glDrawArrays(GL_TRIANGLES, 0, 3);
+		}
 
 		// Moving to Element Buffer, No longer needed
-		glDrawArrays(GL_TRIANGLES, 0, 3);
-		glDrawArrays(GL_TRIANGLES, 3, 3); // TODO:Not sure if this is Needed ?
 
 		// Swap the Front and Back Buffers
 		glfwSwapBuffers(m_window);
