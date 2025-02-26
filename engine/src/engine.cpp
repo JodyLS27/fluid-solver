@@ -5,7 +5,7 @@
 
 #include "engine.hpp"
 
-
+#pragma region Shaders
 // Temp Data for testing
 const char* vertex_shader_source = "#version 330 core\n"
 "layout(location = 0) in vec3 aPos; \n"
@@ -21,12 +21,15 @@ const char* fragment_shader_source = "#version 330 core\n"
 "	FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);"
 "}\n";
 
+#pragma endregion Shaders
+
 void engine::Engine::init()
 {
 }
 
 int engine::Engine::start()
 {
+	// -- Windowing --
 	m_engine_window.init();
 
 	m_window = m_engine_window.getGLFWwindow();
@@ -36,9 +39,8 @@ int engine::Engine::start()
 		return -1;
 	}
 
-	// Build and Comile our Shader Program
-	// ------------------------------------------------
 
+#pragma region Shading
 	// Checking if shader comiliation was successful
 	int success{};
 	char info_log[512];
@@ -96,6 +98,9 @@ int engine::Engine::start()
 	glDeleteShader(vertex_shader);
 	glDeleteShader(fragment_shader);
 
+#pragma endregion Shading
+
+#pragma region Verticies and Indices
 	// --- Vertex Data ---
 	float vertices[] =
 	{
@@ -132,9 +137,11 @@ int engine::Engine::start()
 		0, 1, 3, // first triangle
 		1, 2, 3  // second triangle
 	};
+#pragma endregion Verticies and Indices
+
+#pragma region Vertex_Array_and_Buffers
 
 	// Setup Vertex Buffer Object
-	// (OLD) - unsigned int VBOA{}, VBOB{}, VAOA{}, VAOB{}, EBO{}; TODO: Remove
 	GLuint VBOs[2];
 	GLuint VAOs[2];
 
@@ -153,6 +160,8 @@ int engine::Engine::start()
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0); // Because the data is Tightly packed, We can let OpenGL figure it out.
 		glEnableVertexAttribArray(0);
 	}
+
+#pragma endregion Vertex_Array_and_Buffers
 
 
 	// Main loop
