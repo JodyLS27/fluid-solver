@@ -5,6 +5,7 @@
 
 #include "engine.hpp"
 
+// TODO: Create a Second Fragment, Yellow
 #pragma region Shaders
 // Temp Data for testing
 const char* vertex_shader_source = "#version 330 core\n"
@@ -19,6 +20,15 @@ const char* fragment_shader_source = "#version 330 core\n"
 "void main()\n"
 "{\n"
 "	FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);"
+"}\n";
+
+
+// Yellow Fragment shader
+const char* fragment_shader_two = "#version 330 core\n"
+"out vec4 FragColor;\n"
+"void main()\n"
+"{\n"
+"	FragColor = vec4(1.0f, 1.0f, 0.0f, 1.0f);"
 "}\n";
 
 #pragma endregion Shaders
@@ -79,6 +89,7 @@ int engine::Engine::start()
 	}
 
 	// --- Shader Program ---
+	// TODO: Create two Shader Programes with a Second Fragment shader for the Yellow colour
 	unsigned int shader_program{};
 	shader_program = glCreateProgram();
 
