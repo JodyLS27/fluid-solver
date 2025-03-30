@@ -110,13 +110,8 @@ int engine::Engine::start()
 	{
 		// Triangle One
 		-0.7f, 0.25f, 0.0f,		// top
-		-0.9f, -0.25f, 0.0f,		// Left
-		-0.5f, -0.25f, 0.0f,		// Right
-
-		// Triangle two
-		0.7f, 0.25f, 0.0f,		// top
-		0.5f, -0.25f, 0.0f,		// left
-		0.9f, -0.25f, 0.0f		// right
+		-0.9f, -0.25f, 0.0f,	// Left
+		-0.5f, -0.25f, 0.0f,	// Right
 	};
 
 	unsigned int indices[] =
@@ -128,21 +123,25 @@ int engine::Engine::start()
 
 #pragma region Vertex_Array_and_Buffers
 
+	// for the amount of objects to create
+	const unsigned int max_objects{ 1 };
+
 	// Setup Vertex Buffer Object
-	GLuint VBOs[2];
-	GLuint VAOs[2];
+	GLuint VBOs[max_objects];
+	GLuint VAOs[max_objects];
+
 
 	// Generate Buffers
-	glGenVertexArrays(2, VAOs);
-	glGenBuffers(2, VBOs);
+	glGenVertexArrays(max_objects, VAOs);
+	glGenBuffers(max_objects, VBOs);
 
 	// Loop over the array
-	for (int i = 0; i < 2; i++)
+	for (int i = 0; i < max_objects; i++)
 	{
 		glBindVertexArray(VAOs[i]);
 		glBindBuffer(GL_ARRAY_BUFFER, VBOs[i]);
 
-		glBufferData(GL_ARRAY_BUFFER, sizeof(vertices) / 2, &vertices[i * 9], GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(vertices) / max_objects, &vertices[i * 9], GL_STATIC_DRAW);
 
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0); // Because the data is Tightly packed, We can let OpenGL figure it out.
 		glEnableVertexAttribArray(0);
