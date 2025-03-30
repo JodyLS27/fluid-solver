@@ -15,17 +15,7 @@ const char* vertex_shader_source = "#version 330 core\n"
 "	gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0f);\n"
 "}\0";
 
-const char* SG_fragment_shader_orange = "#version 330 core\n"
-"out vec4 FragColor;\n"
-"uniform vec4 MyColour;\n"
-"void main()\n"
-"{\n"
-"	FragColor = MyColour;"
-"}\n";
-
-
-// Yellow Fragment shader
-const char* SG_fragment_shader_yellow = "#version 330 core\n"
+const char* fragment_shader_source = "#version 330 core\n"
 "out vec4 FragColor;\n"
 "uniform vec4 MyColour;\n"
 "void main()\n"
@@ -75,33 +65,20 @@ int engine::Engine::start()
 	}
 
 	// --- Fragment Shader ---
-	unsigned int fragment_shader_orange{}, fragment_shader_yellow{};
-	fragment_shader_orange = glCreateShader(GL_FRAGMENT_SHADER);
-	fragment_shader_yellow = glCreateShader(GL_FRAGMENT_SHADER);
+	unsigned int fragment_shader_s{};
+	fragment_shader_s = glCreateShader(GL_FRAGMENT_SHADER);
 
-	glShaderSource(fragment_shader_orange, 1, &SG_fragment_shader_orange, nullptr);
-	glCompileShader(fragment_shader_orange);
-
-	glShaderSource(fragment_shader_yellow, 1, &SG_fragment_shader_yellow, nullptr);
-	glCompileShader(fragment_shader_yellow);
+	glShaderSource(fragment_shader_s, 1, &fragment_shader_source, nullptr);
+	glCompileShader(fragment_shader_s);
 
 	// Fragment Compilation success
-	glGetShaderiv(fragment_shader_orange, GL_COMPILE_STATUS, &success);
+	glGetShaderiv(fragment_shader_s, GL_COMPILE_STATUS, &success);
 
 	if (!success)
 	{
-		glGetShaderInfoLog(fragment_shader_orange, 512, nullptr, info_log);
+		glGetShaderInfoLog(fragment_shader_s, 512, nullptr, info_log);
 		std::cout << "ERROR::SHADER::FRAGMENT::COMPILED FAILED\n" << info_log << "\n\n";
 	}
-
-	glGetShaderiv(fragment_shader_yellow, GL_COMPILE_STATUS, &success);
-
-	if (!success)
-	{
-		glGetShaderInfoLog(fragment_shader_yellow, 512, nullptr, info_log);
-		std::cout << "ERROR::SHADER::FRAGMENT::COMPILED FAILED\n" << info_log << "\n\n";
-	}
-
 
 	// --- Shader Program ---
 	// TODO: Create two Shader Programes with a Second Fragment shader for the Yellow colour
