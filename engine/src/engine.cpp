@@ -108,10 +108,10 @@ int engine::Engine::start()
 	// --- Vertex Data ---
 	float vertices[] =
 	{
-		// Triangle One
-		-0.7f, 0.25f, 0.0f,		// top
-		-0.9f, -0.25f, 0.0f,	// Left
-		-0.5f, -0.25f, 0.0f,	// Right
+		// Position				// Colour		
+		-0.0f, 0.5f, 0.0f,  1.0f, 0.0f, 0.0f, 	// top
+		0.5f, -0.5f, 0.0f,  0.0f, 1.0f, 0.0f,	// Left
+		-0.5f, -0.5f, 0.0f,  0.0f, 0.0f, 1.0f	// Right
 	};
 
 	unsigned int indices[] =
@@ -163,7 +163,7 @@ int engine::Engine::start()
 
 
 
-		for (int i = 0; i < 2; i++)
+		for (int i = 0; i < max_objects; i++)
 		{
 			// Draw Triangle: On the Back Buffer
 			glUseProgram(shader_program[i]);
