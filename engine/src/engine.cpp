@@ -145,31 +145,14 @@ int engine::Engine::start()
 	float vertices[] =
 	{
 		// Triangle One
-		-0.75f, 0.25f, 0.0f,		// top
+		-0.7f, 0.25f, 0.0f,		// top
 		-0.9f, -0.25f, 0.0f,		// Left
-		-0.6f, -0.25f, 0.0f,		// Right
+		-0.5f, -0.25f, 0.0f,		// Right
 
 		// Triangle two
-		0.75f, 0.25f, 0.0f,		// top
-		0.6f, -0.25f, 0.0f,		// left
+		0.7f, 0.25f, 0.0f,		// top
+		0.5f, -0.25f, 0.0f,		// left
 		0.9f, -0.25f, 0.0f		// right
-	};
-
-
-	// --- Vertex Data ---
-	float first_triangle[] =
-	{
-		-0.75f, 0.25f, 0.0f,		// top
-		-0.9f, -0.25f, 0.0f,		// Left
-		-0.6f, -0.25f, 0.0f,		// Right
-	};
-
-	float second_triangle[] =
-	{
-		0.75f, 0.25f, 0.0f,		// top
-		0.6f, -0.25f, 0.0f,		// left
-		0.9f, -0.25f, 0.0f		// right
-
 	};
 
 	unsigned int indices[] =
