@@ -80,20 +80,15 @@ int engine::Engine::start()
 		std::cout << "ERROR::SHADER::FRAGMENT::COMPILED FAILED\n" << info_log << "\n\n";
 	}
 
-	// --- Shader Program ---
-	// TODO: Create two Shader Programes with a Second Fragment shader for the Yellow colour
-	unsigned int shader_program[2];
+	// --- Shader Program ---	
+	unsigned int shader_program[1];
 	shader_program[0] = glCreateProgram();
-	shader_program[1] = glCreateProgram();
 
 
 	glAttachShader(shader_program[0], vertex_shader);
-	glAttachShader(shader_program[1], vertex_shader);
-	glAttachShader(shader_program[0], fragment_shader_orange);
-	glAttachShader(shader_program[1], fragment_shader_yellow);
+	glAttachShader(shader_program[0], fragment_shader_s);
 
 	glLinkProgram(shader_program[0]);
-	glLinkProgram(shader_program[1]);
 
 	glGetProgramiv(shader_program[0], GL_LINK_STATUS, &success);
 
@@ -103,19 +98,9 @@ int engine::Engine::start()
 		std::cout << "ERROR::SHADER::PROGRAM::COMPILE FAILED\n" << info_log << "\n\n";
 	}
 
-	glGetProgramiv(shader_program[1], GL_LINK_STATUS, &success);
-
-	if (!success)
-	{
-		glGetProgramInfoLog(shader_program[1], 512, nullptr, info_log);
-		std::cout << "ERROR::SHADER::PROGRAM::COMPILE FAILED\n" << info_log << "\n\n";
-	}
-
-
 	// Cleanup Unneeded Shaders
 	glDeleteShader(vertex_shader);
-	glDeleteShader(fragment_shader_orange);
-	glDeleteShader(fragment_shader_yellow);
+	glDeleteShader(fragment_shader_s);
 
 #pragma endregion Shading
 
