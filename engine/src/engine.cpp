@@ -17,18 +17,20 @@ const char* vertex_shader_source = "#version 330 core\n"
 
 const char* SG_fragment_shader_orange = "#version 330 core\n"
 "out vec4 FragColor;\n"
+"uniform vec4 MyColour;\n"
 "void main()\n"
 "{\n"
-"	FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);"
+"	FragColor = MyColour;"
 "}\n";
 
 
 // Yellow Fragment shader
 const char* SG_fragment_shader_yellow = "#version 330 core\n"
 "out vec4 FragColor;\n"
+"uniform vec4 MyColour;\n"
 "void main()\n"
 "{\n"
-"	FragColor = vec4(1.0f, 1.0f, 0.0f, 1.0f);"
+"	FragColor = MyColour;"
 "}\n";
 
 #pragma endregion Shaders
@@ -204,6 +206,21 @@ int engine::Engine::start()
 		{
 			// Draw Triangle: On the Back Buffer
 			glUseProgram(shader_program[i]);
+
+			// Set time interval 
+			float time_value = glfwGetTime();
+			float colour_value = sin(time_value) / 2.0f + 0.5f;
+			std::cout << "Colour Value: " << colour_value << "\n";
+			int vertex_colour_location = glGetUniformLocation(shader_program[i], "MyColour");
+
+			// Affect red or Green channel
+			if (i > 0)
+				glUniform4f(vertex_colour_location, colour_value, 0.0f, 0.0f, 1.0f);
+			else
+				glUniform4f(vertex_colour_location, 0.0f, colour_value, 0.04, 1.0f);
+
+
+
 			glBindVertexArray(VAOs[i]);
 			glDrawArrays(GL_TRIANGLES, 0, 3);
 		}
