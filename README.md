@@ -1,7 +1,9 @@
 # Introduction
 *`VERSION: 0.0.1`* | *`STATUS: In Progress`*
 
-This project will be a fluid solver running in 2D and 3D space.
+This project will serve as a way to learn OpenGL while building a fluid solver running in 2D space to start with.
+
+As the projet grows, 3D will be implemented for the fluid solver.
 
 > Currently the project has no functionality, keep an eye out for updates to the README.
 
@@ -10,13 +12,11 @@ This project will be a fluid solver running in 2D and 3D space.
  # Branch structure
  ```
  - main
-   - dev
-     - feature-branches
+   - feature-branches
  ```
  - **`main`** Is the primary release branch
 
- - **`dev`** Used to collect different feature branches for testing before a PR to *`main`*
  - **`feature/`** These branches are for new features currently in development and should include your name:
-   - *I.E: `feature/bob/implement-vectors`*
+   > *I.E: `feature/bob/implement-vectors`*
 
  ---
