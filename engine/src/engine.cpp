@@ -10,17 +10,20 @@
 // Temp Data for testing
 const char* vertex_shader_source = "#version 330 core\n"
 "layout(location = 0) in vec3 aPos; \n"
+"layout(location = 1) in vec3 aColour; \n"
+"out vec3 myColour; \n"
 "void main()\n"
 "{\n"
-"	gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0f);\n"
+"	gl_Position = vec4(aPos, 1.0);\n"
+"	myColour = aColour; \n"
 "}\0";
 
 const char* fragment_shader_source = "#version 330 core\n"
+"in vec3 myColour;\n"
 "out vec4 FragColor;\n"
-"uniform vec4 MyColour;\n"
 "void main()\n"
 "{\n"
-"	FragColor = MyColour;"
+"	FragColor = vec4(myColour, 1.0); \n"
 "}\n";
 
 #pragma endregion Shaders
@@ -141,10 +144,16 @@ int engine::Engine::start()
 		glBindVertexArray(VAOs[i]);
 		glBindBuffer(GL_ARRAY_BUFFER, VBOs[i]);
 
+		// [i * 9] is the amount of data per row : TODO: do Some testing ?
 		glBufferData(GL_ARRAY_BUFFER, sizeof(vertices) / max_objects, &vertices[i * 9], GL_STATIC_DRAW);
 
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0); // Because the data is Tightly packed, We can let OpenGL figure it out.
+		// Position data
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
 		glEnableVertexAttribArray(0);
+
+		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
+		glEnableVertexAttribArray(1);
+
 	}
 
 #pragma endregion Vertex_Array_and_Buffers
@@ -167,20 +176,6 @@ int engine::Engine::start()
 		{
 			// Draw Triangle: On the Back Buffer
 			glUseProgram(shader_program[i]);
-
-			// Set time interval 
-			float time_value = glfwGetTime();
-			float colour_value = sin(time_value) / 2.0f + 0.5f;
-			std::cout << "Colour Value: " << colour_value << "\n";
-			int vertex_colour_location = glGetUniformLocation(shader_program[i], "MyColour");
-
-			// Affect red or Green channel
-			if (i > 0)
-				glUniform4f(vertex_colour_location, colour_value, 0.0f, 0.0f, 1.0f);
-			else
-				glUniform4f(vertex_colour_location, 0.0f, colour_value, 0.04, 1.0f);
-
-
 
 			glBindVertexArray(VAOs[i]);
 			glDrawArrays(GL_TRIANGLES, 0, 3);
